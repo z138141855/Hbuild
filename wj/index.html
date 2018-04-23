@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<script src="js/jquery.min.js"></script>
+		<script src="vue/vue.js"></script>
+		<title>svn运用</title>
+	</head>
+	<style type="text/css">
+		body{
+			margin: 0;
+			padding: 0;
+		}
+		#app{
+			width: 1920px;
+			height: 1080px;
+			background: url(img/bg.png);
+			background-size:100% 100%;
+			overflow: hidden;
+		}
+		.wrap{
+		    width: 82.4%;
+		    height: 833px;
+		    margin: 122px auto 0;
+			
+		}
+		.pdnum{
+			width: 75%;
+			margin: 0 auto;
+			text-align: center;
+			color: black;
+			position: relative;
+		}
+		.buName{
+			position: absolute;
+		    color: #2b2d4d;	
+		}
+		.buNum{
+			position: absolute;
+		    color: white;	
+		}		
+	</style>
+	<body>
+		<div id="app">
+			<div class="wrap">
+				<div class="pdnum" v-for="item in res" :style="{height:H,lineHeight:LH,fontSize:FS,background:imgback,backgroundSize:imgbacksize}">
+					<span class="buName" :style="{left:bnameLeft}">{{item.name}}</span>
+					<span class="buNum" :style="{right:bunumRight}">{{item.num}}人</span>
+				</div>
+			</div>
+			
+		</div>
+		
+		
+		
+		
+		
+		<script type="text/javascript">
+
+			
+			let app=new Vue({
+				el:"#app",
+				data:{
+					res:[],
+					H2:"",//高度
+					LH:"",//行高
+					FS:"",//字体大小
+					imgback:'url(img/common.png) center center no-repeat',//背景图
+					imgbacksize:'',//背景图尺寸
+					bnameLeft:'',//业务左
+					bunumRight:'',//人数右
+				},
+				created:function(){
+//					exampleData.name="1111"
+				},
+				methods:{
+					show:function(a){
+						console.log(a)
+					}
+				}
+			})
+			
+			let s=[
+					{name:'对公业务',num:'10'},
+					{name:'对公业务',num:'10'},
+					{name:'对公业务',num:'10'},
+
+
+
+
+
+
+				]
+			let a=JSON.stringify(s)
+				
+			function pdnum(str){
+				jsonLsit=JSON.parse(str);
+				app.LH=app.H=833/jsonLsit.length+"px";
+
+//				背景图判断  文字大小判断
+				if(jsonLsit.length<6||jsonLsit.length==6){
+					app.FS="90px";
+					app.bnameLeft="135px";
+					app.bunumRight="188px";
+				}else{
+					app.FS=833/jsonLsit.length/3+"px";
+					
+//					计算position值  （长1-长2 /2 ）
+					w1=1080*0.75;
+					w2=(833/jsonLsit.length)*1054/130;
+					app.bnameLeft=(w1-w2)/2+(w2/2.5)+'px';
+					console.log(app.bnameLeft)
+					app.bunumRight=(w1-w2)/2+(w2/2.5)+'px';		
+					
+					app.imgbacksize="auto 95%"
+				}
+				
+				console.log(app.LH)
+				console.log(app.H)
+				app.res=jsonLsit
+			}
+			//pdnum(a)
+		</script>
+	</body>
+</html>
